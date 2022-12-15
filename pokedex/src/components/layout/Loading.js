@@ -7,7 +7,7 @@ export default class Loading extends Component {
       <React.Fragment>
         <h5>
 	 Refreshing Pokedex entries ...
-	 <img src={spinner} style={{ width: '5em', height: '5em' }} className="card-img-top rounded mx-auto d-block mt-2" />
+	 <img src={spinner} alt="" style={{ width: '5em', height: '5em' }} className="card-img-top rounded mx-auto d-block mt-2" />
 	</h5>
       </React.Fragment>
     );
