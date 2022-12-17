@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./styles.css";
 
-const Footer = () => {
+const footer = () => {
   return (
     <footer className="mt-5">
       <div className="d-flex justify-content-center align-items-center">
@@ -12,4 +12,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default footer;
