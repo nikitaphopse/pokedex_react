@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import styled from 'styled-components';
-import spinner from '../layout/spinner.gif';
+import styled from "styled-components";
+import spinner from "../layout/spinner.gif";
 
 const Sprite = styled.img`
   width: 8em;
@@ -11,53 +11,83 @@ const Sprite = styled.img`
 `;
 
 const Card = styled.div`
-  opacity: 0.90;
+  opacity: 0.9;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  &:hover {box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);}`;
+  &:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+`;
 
-export default class PokemonCard extends Component {
-  state = {
-    name: '',
-    imageUrl: '',
-    pokemonIndex: '',
+export default function PokemonCard(props) {
+  const [state, setState] = useState({
+    name: "",
+    imageUrl: "",
+    pokemonIndex: "",
     imageLoading: true,
-    tooManyRequests: false
-  };
+    tooManyRequests: false,
+  });
 
-  componentDidMount() {
-    const { name, url } = this.props;
-    const pokemonIndex = url.split('/')[url.split('/').length - 2];
-    const imageUrl = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokemonIndex}.png?raw=true`;
-    this.setState({ name, imageUrl, pokemonIndex });
-  }
+  useEffect(() => {
+    async function fetchData() {
+      const { name, url } = props;
+      const pokemonIndex = url.split("/")[url.split("/").length - 2];
+      const imageUrl = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokemonIndex}.png?raw=true`;
+      setState({ name, imageUrl, pokemonIndex });
+    }
 
-  render() {
-    return (
-      <div className="col-md-3 col-sm-6 mb-5">
-        <Link to={`pokemon/${this.state.pokemonIndex}`}>
-          <Card className="card">
-            <h5 className="card-header">{this.state.pokemonIndex}</h5>
-            
-            {this.state.imageLoading ? (<img src={spinner} alt="" style={{ width: '5em', height: '5em' }} className="card-img-top rounded mx-auto d-block mt-2"/>) : null}
-            
-            <Sprite
-              className="card-img-top rounded mx-auto mt-2"
-              src={this.state.imageUrl}
-              onLoad={() => this.setState({ imageLoading: false })}
-              onError={() => this.setState({ toManyRequests: true })}
-              style={this.state.tooManyRequests ? { display: 'none' } : this.state.imageLoading ? null : { display: 'block' }}/>
+    fetchData();
+  });
 
-            {this.state.tooManyRequests ? (<h6 className="mx-auto"><span className="badge badge-danger mt-2"> Too Many Requests</span></h6>) : null}
-            
-            <div className="card-body mx-auto">
-              <h6 className="card-title">
-                {this.state.name.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
-              </h6>
-            </div>
-          </Card>
-        </Link>
-      </div>
-    );
-  }
+  return (
+    <div className="col-md-3 col-sm-6 mb-5">
+      <Link to={`pokemon/${state.pokemonIndex}`}>
+        <Card className="card">
+          <h5 className="card-header">{state.pokemonIndex}</h5>
+
+          {state.imageLoading ? (
+            <img
+              src={spinner}
+              alt=""
+              style={{ width: "5em", height: "5em" }}
+              className="card-img-top rounded mx-auto d-block mt-2"
+            />
+          ) : null}
+
+          <Sprite
+            className="card-img-top rounded mx-auto mt-2"
+            src={state.imageUrl}
+            onLoad={() => setState({ imageLoading: false })}
+            onError={() => setState({ toManyRequests: true })}
+            style={
+              state.tooManyRequests
+                ? { display: "none" }
+                : state.imageLoading
+                ? null
+                : { display: "block" }
+            }
+          />
+
+          {state.tooManyRequests ? (
+            <h6 className="mx-auto">
+              <span className="badge badge-danger mt-2">
+                {" "}
+                Too Many Requests
+              </span>
+            </h6>
+          ) : null}
+
+          <div className="card-body mx-auto">
+            <h6 className="card-title">
+              {state.name
+                .toLowerCase()
+                .split(" ")
+                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                .join(" ")}
+            </h6>
+          </div>
+        </Card>
+      </Link>
+    </div>
+  );
 }

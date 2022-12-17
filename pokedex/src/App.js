@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css';
@@ -8,8 +8,7 @@ import NavBar from './components/layout/NavBar';
 import Dashboard from './components/layout/Dashboard';
 import Pokemon from './components/pokemon/Pokemon';
 
-class App extends Component {
-  render() {
+function App() {
     return (
       <Router>
         <div className="App" style={{ background: `url(${backgroundImage})` }}>
@@ -23,7 +22,6 @@ class App extends Component {
         </div>
       </Router>
     );
-  }
 }
 
 export default App;
