@@ -11,6 +11,7 @@ function Pokemon(props) {
     name: "",
     pokemonIndex: "",
     imageUrl: "",
+    types: [],
     stats: {
       hp: "",
       attack: "",
@@ -30,11 +31,11 @@ function Pokemon(props) {
 
     const name = res.data.name;
     const imageUrl = res.data.sprites.front_default;
-    const height =
-      Math.round((res.data.height * 0.328084 + 0.00001) * 100) / 100;
-    const weight =
-      Math.round((res.data.weight * 0.220462 + 0.00001) * 100) / 100;
-
+    const height = Math.round(res.data.height * 10);
+    const weight = Math.round(res.data.weight * 0.1);
+    
+    const types = res.data.types.map(type => type.type.name);
+  
     let { hp, attack, defense, speed } = "";
     res.data.stats.map((stat) => {
       switch (stat.stat.name) {
@@ -59,6 +60,7 @@ function Pokemon(props) {
       name,
       pokemonIndex,
       imageUrl,
+      types,
       stats: {
         hp,
         attack,
@@ -87,11 +89,7 @@ function Pokemon(props) {
         <div className="card-body">
           <div className="row align-items-center">
             <div className=" col-md-3 ">
-              <img
-                src={state.imageUrl}
-                className="card-img-top rounded mx-auto mt-2"
-                alt=""
-              />
+              <img src={state.imageUrl} className="card-img-top rounded mx-auto mt-2" alt=""/>
             </div>
 
             <div className="col-md-9">
@@ -111,6 +109,18 @@ function Pokemon(props) {
           <div className="row align-items-center">
             <div className="mx-auto">
               <div className="row">
+
+                <div className="col-6">
+                  <h6 className="float-right">Type:</h6>
+                </div>
+                <div className="col-6">
+                  {state.types.map(type => (
+                  <h6 key={type} className="float-left">
+                    {type.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
+                  </h6>
+                ))}
+                </div>
+                
                 <div className="col-6">
                   <h6 className="float-right">HP:</h6>
                 </div>
@@ -143,14 +153,14 @@ function Pokemon(props) {
                   <h6 className="float-right">Height:</h6>
                 </div>
                 <div className="col-6">
-                  <h6 className="float-left">{state.height} ft.</h6>
+                  <h6 className="float-left">{state.height} cm</h6>
                 </div>
 
                 <div className="col-6">
                   <h6 className="float-right">Weight:</h6>
                 </div>
                 <div className="col-6">
-                  <h6 className="float-left">{state.weight} lbs</h6>
+                  <h6 className="float-left">{state.weight} Kg</h6>
                 </div>
               </div>
             </div>
