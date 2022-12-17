@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 
-function withParams(Component) {
-  return (props) => <Component {...props} params={useParams()} />;
+function withParams(Component: any) {
+  return (props: any) => <Component {...props} params={useParams()} />;
 }
 
-function Pokemon(props) {
+function Pokemon(props: any) {
   const [state, setState] = useState({
     name: "",
     pokemonIndex: "",
@@ -34,13 +34,13 @@ function Pokemon(props) {
       const height = Math.round(res.data.height * 10);
       const weight = Math.round(res.data.weight * 0.1);
 
-      const types = res.data.types.map((type) => type.type.name);
+      const types = res.data.types.map((type: any) => type.type.name);
 
       let hp = "";
       let attack = "";
       let defense = "";
       let speed = "";
-      res.data.stats.map((stat) => {
+      res.data.stats.map((stat: any) => {
         switch (stat.stat.name) {
           case "hp":
             hp = stat["base_stat"];
@@ -125,7 +125,7 @@ function Pokemon(props) {
                       {type
                         .toLowerCase()
                         .split(" ")
-                        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                        .map((s: string) => s.charAt(0).toUpperCase() + s.substring(1))
                         .join(" ")}
                     </h6>
                   ))}

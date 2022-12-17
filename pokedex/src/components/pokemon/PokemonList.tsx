@@ -43,10 +43,10 @@ export default function PokemonList() {
       {state.pokemon ? (
         <div className="row">
           {state.pokemon
-            .filter((pokemon) =>
+            .filter((pokemon: any) =>
               pokemon.name.toLowerCase().includes(search.toLowerCase())
             )
-            .map((pokemon) => (
+            .map((pokemon: any) => (
               <PokemonCard
                 key={pokemon.name}
                 name={pokemon.name}
