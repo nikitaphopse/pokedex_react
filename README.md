@@ -1,4 +1,3 @@
-# pokedex_react
 Created a Pokedex app using React which contains a list of pokemons populated using the endpoints from PokeAPI.co.
 
 
