@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 import spinner from "../layout/spinner.gif";
+import Loading from "../layout/Loading";
 
 const Sprite = styled.img`
   width: 8em;
@@ -19,14 +20,23 @@ const Card = styled.div`
   }
 `;
 
+type State = {
+  name?: string;
+  imageUrl?: string;
+  pokemonIndex?: string;
+  imageLoading?: boolean;
+  tooManyRequests?: boolean;
+};
+
 export default function PokemonCard(props) {
-  const [state, setState] = useState({
+  const initialState: State = {
     name: "",
     imageUrl: "",
     pokemonIndex: "",
     imageLoading: true,
     tooManyRequests: false,
-  });
+  };
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
     async function fetchData() {
@@ -58,14 +68,6 @@ export default function PokemonCard(props) {
             className="card-img-top rounded mx-auto mt-2"
             src={state.imageUrl}
             onLoad={() => setState({ imageLoading: false })}
-            onError={() => setState({ toManyRequests: true })}
-            style={
-              state.tooManyRequests
-                ? { display: "none" }
-                : state.imageLoading
-                ? null
-                : { display: "block" }
-            }
           />
 
           {state.tooManyRequests ? (
@@ -78,13 +80,17 @@ export default function PokemonCard(props) {
           ) : null}
 
           <div className="card-body mx-auto">
-            <h6 className="card-title">
-              {state.name
-                .toLowerCase()
-                .split(" ")
-                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                .join(" ")}
-            </h6>
+            {state.name ? (
+              <h6 className="card-title">
+                {state.name
+                  .toLowerCase()
+                  .split(" ")
+                  .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                  .join(" ")}
+              </h6>
+            ) : (
+              <Loading />
+            )}
           </div>
         </Card>
       </Link>

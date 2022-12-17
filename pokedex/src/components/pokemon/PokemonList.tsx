@@ -4,16 +4,25 @@ import PokemonCard from "./PokemonCard";
 import Loading from "../layout/Loading";
 import axios from "axios";
 
+type State = {
+  pokemon?: any;
+  url?: string;
+};
+
 export default function PokemonList() {
-  const [search, setSearch] = useState(``);
-  const [state, setState] = useState({
+  const initialState: State = {
     url: "https://pokeapi.co/api/v2/pokemon/?limit=100",
-    pokemon: null,
-  });
+    pokemon: [],
+  }
+  const [search, setSearch] = useState(``);
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get(state.url);
+      let res: any;
+      if (state.url) {
+        res = await axios.get(state.url);
+      }
       setState({ pokemon: res.data["results"] });
     }
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import PokemonList from '../pokemon/PokemonList';
+import PokemonList from "../pokemon/PokemonList";
 
 const dashboard = () => {
   return (
@@ -10,6 +10,6 @@ const dashboard = () => {
       </div>
     </div>
   );
-}
+};
 
 export default dashboard;

@@ -11,65 +11,68 @@ function Pokemon(props) {
     name: "",
     pokemonIndex: "",
     imageUrl: "",
-    types: [],
+    types: [] as any[],
     stats: {
       hp: "",
       attack: "",
       defense: "",
       speed: "",
     },
-    height: "",
-    weight: "",
+    height: 0,
+    weight: 0,
   });
 
   useEffect(() => {
     async function fetchData() {
-    let { pokemonIndex } = props.params;
+      let { pokemonIndex } = props.params;
 
-    const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonIndex}/`;
-    const res = await Axios.get(pokemonUrl);
+      const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonIndex}/`;
+      const res = await Axios.get(pokemonUrl);
 
-    const name = res.data.name;
-    const imageUrl = res.data.sprites.front_default;
-    const height = Math.round(res.data.height * 10);
-    const weight = Math.round(res.data.weight * 0.1);
-    
-    const types = res.data.types.map(type => type.type.name);
-  
-    let { hp, attack, defense, speed } = "";
-    res.data.stats.map((stat) => {
-      switch (stat.stat.name) {
-        case "hp":
-          hp = stat["base_stat"];
-          break;
-        case "attack":
-          attack = stat["base_stat"];
-          break;
-        case "defense":
-          defense = stat["base_stat"];
-          break;
-        case "speed":
-          speed = stat["base_stat"];
-          break;
-        default:
-          break;
-      }
-    });
+      const name = res.data.name;
+      const imageUrl = res.data.sprites.front_default;
+      const height = Math.round(res.data.height * 10);
+      const weight = Math.round(res.data.weight * 0.1);
 
-    setState({
-      name,
-      pokemonIndex,
-      imageUrl,
-      types,
-      stats: {
-        hp,
-        attack,
-        defense,
-        speed,
-      },
-      height,
-      weight,
-    });
+      const types = res.data.types.map((type) => type.type.name);
+
+      let hp = "";
+      let attack = "";
+      let defense = "";
+      let speed = "";
+      res.data.stats.map((stat) => {
+        switch (stat.stat.name) {
+          case "hp":
+            hp = stat["base_stat"];
+            break;
+          case "attack":
+            attack = stat["base_stat"];
+            break;
+          case "defense":
+            defense = stat["base_stat"];
+            break;
+          case "speed":
+            speed = stat["base_stat"];
+            break;
+          default:
+            break;
+        }
+      });
+
+      setState({
+        name,
+        pokemonIndex,
+        imageUrl,
+        types,
+        stats: {
+          hp,
+          attack,
+          defense,
+          speed,
+        },
+        height,
+        weight,
+      });
     }
 
     fetchData();
@@ -89,7 +92,11 @@ function Pokemon(props) {
         <div className="card-body">
           <div className="row align-items-center">
             <div className=" col-md-3 ">
-              <img src={state.imageUrl} className="card-img-top rounded mx-auto mt-2" alt=""/>
+              <img
+                src={state.imageUrl}
+                className="card-img-top rounded mx-auto mt-2"
+                alt=""
+              />
             </div>
 
             <div className="col-md-9">
@@ -109,18 +116,21 @@ function Pokemon(props) {
           <div className="row align-items-center">
             <div className="mx-auto">
               <div className="row">
-
                 <div className="col-6">
                   <h6 className="float-right">Type:</h6>
                 </div>
                 <div className="col-6">
-                  {state.types.map(type => (
-                  <h6 key={type} className="float-left">
-                    {type.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
-                  </h6>
-                ))}
+                  {state.types.map((type) => (
+                    <h6 key={type} className="float-left">
+                      {type
+                        .toLowerCase()
+                        .split(" ")
+                        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                        .join(" ")}
+                    </h6>
+                  ))}
                 </div>
-                
+
                 <div className="col-6">
                   <h6 className="float-right">HP:</h6>
                 </div>
