@@ -40,7 +40,7 @@ function Pokemon(props: any) {
       let attack = "";
       let defense = "";
       let speed = "";
-      res.data.stats.map((stat: any) => {
+      res.data.stats.forEach((stat: any) => {
         switch (stat.stat.name) {
           case "hp":
             hp = stat["base_stat"];
