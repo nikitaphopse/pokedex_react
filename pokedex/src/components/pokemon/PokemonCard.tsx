@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
-// import spinner from "../layout/spinner.gif";
+import spinner from "../layout/spinner.gif";
 import Loading from "../layout/Loading";
 
 const Sprite = styled.img`
@@ -57,7 +57,7 @@ export default function PokemonCard(props: any) {
 
           {state.imageLoading ? (
             <img
-              // src={spinner}
+              src={spinner}
               alt=""
               style={{ width: "5em", height: "5em" }}
               className="card-img-top rounded mx-auto d-block mt-2"
@@ -68,6 +68,14 @@ export default function PokemonCard(props: any) {
             className="card-img-top rounded mx-auto mt-2"
             src={state.imageUrl}
             onLoad={() => setState({ imageLoading: false })}
+            onError={() => setState({ tooManyRequests: true })}
+            style={
+              state.tooManyRequests
+                ? { display: "none" }
+                : state.imageLoading
+                ? null
+                : { display: "block" }
+            }
           />
 
           {state.tooManyRequests ? (

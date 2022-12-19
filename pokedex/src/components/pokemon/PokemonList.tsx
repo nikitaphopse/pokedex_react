@@ -35,7 +35,7 @@ export default function PokemonList() {
         <input
           type="text"
           className="input"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
           placeholder="Search..."
         />
       </div>
